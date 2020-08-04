@@ -14,6 +14,14 @@ class RecentTrades
     message: @message
   }
   end
+
+  def to_h
+    {
+      "code" => @code,
+      "data" => @data.map &.to_h,
+      "message" => @message
+    }
+    end
 end
 
 class Data
@@ -34,5 +42,14 @@ class Data
     side: @side,
     timestamp: @timestamp
   }
+  end
+
+  def to_h
+    {
+      "amount" => @amount,
+      "price" => @price,
+      "side" => @side,
+      "timestamp" => @timestamp
+    }
   end
 end

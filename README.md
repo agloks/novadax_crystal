@@ -9,7 +9,7 @@ TODO: Write a description here
    ```yaml
    dependencies:
      novadax_crystal:
-       github: your-github-user/novadax_crystal
+       github: agloks/novadax_crystal
    ```
 
 2. Run `shards install`
