@@ -1,0 +1,9 @@
+name: novadax_crystal
+version: 0.1.0
+
+authors:
+  - Agloks <smoke.day@yahoo.com>
+
+crystal: 0.35.1
+
+license: MIT
