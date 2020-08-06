@@ -1,4 +1,5 @@
 require "./src/depedency"
+require "./env"
 
 novadax = NovadaxCrystal::NovadaxAPI.new
 request = novadax.getRecentTrades("LTC_BRL", "2")

@@ -2,6 +2,7 @@
 require "http/client"
 require "json"
 #third libs
+require "await_async"
 
 #person libs
 require "./_configs/configs_file"
