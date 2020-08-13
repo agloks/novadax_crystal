@@ -4,6 +4,11 @@ version: 0.1.0
 authors:
   - Agloks <smoke.day@yahoo.com>
 
+dependencies:
+  await_async:
+    github: anykeyh/await_async
+    branch: master
+    
 crystal: 0.35.1
 
 license: MIT
