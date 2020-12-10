@@ -53,5 +53,13 @@ module NovadaxCrystal
       (await client).body
     end
 
+    def getCriptoDetail(symbol : String, limit : String = "100")
+      endpoint = "/v1/market/ticker"
+      qs = HTTP::Params.encode({"limit" => limit, "symbol" => symbol}) # IMPORTANT: Always put the keys in order ascedent by ascii
+      headers = signatureToGet endpoint, qs
+      client = async { HTTP::Client.get(url: "#{@url}#{endpoint}?#{qs}", headers: headers) }
+      
+      (await client).body
+    end
   end
 end
