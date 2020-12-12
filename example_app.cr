@@ -1,4 +1,5 @@
 require "./src/depedency"
+require "./src/email"
 require "./env"
 
 class App
@@ -34,5 +35,12 @@ class App
   end
 end
 
-app = App.new "LTC_BRL"
-p app.showValue
+app = App.new "ETH_BRL"
+value = 2849.00
+
+unless app.isMoreThen value
+  p "app sleeping 60 seconds..."
+  sleep 60.seconds
+end
+
+p Mail::CryptoGotValue.new("Hacker", "ETH_BRL", app.showValue.dig("data", "ask").to_s, "hacktonironhacker@gmail.com").deliver

@@ -9,6 +9,9 @@ dependencies:
     github: anykeyh/await_async
     branch: master
     
+  carbon:
+    github: luckyframework/carbon
+
 crystal: 0.35.1
 
 license: MIT
