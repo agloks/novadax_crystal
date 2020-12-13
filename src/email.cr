@@ -1,6 +1,6 @@
 require "colorize"
 require "carbon"
-require "./env"
+require "../env"
 
 module Mail
   # You can setup defaults in this class

@@ -1,8 +1,8 @@
 require "./src/depedency"
 require "./src/email"
-require "./env"
+require "cli"
 
-class App
+class NovaHandlers
   def initialize(@symbol : String)
     @novadax = NovadaxCrystal::NovadaxAPI.new ENV["ACESS_KEY"], ENV["SECRET_KEY"]
   end
@@ -20,14 +20,8 @@ class App
     
     data.ask.to_f < value ? true : false
   end
-  
-  def isEqual(value : Float64) : Bool
-    request = @novadax.getCriptoDetail(@symbol)
-    data = CryptoDetail.from_json(request).data
-    
-    data.ask.to_f == value ? true : false
-  end
 
+  #Only for debug purpose
   def showValue
     request = @novadax.getCriptoDetail(@symbol)
     
@@ -35,12 +29,51 @@ class App
   end
 end
 
-app = App.new "ETH_BRL"
-value = 2849.00
+module CLI
+  class MainCommand < ::Cli::Supercommand
+    # command "s", aliased: "start"
 
-unless app.isMoreThen value
-  p "app sleeping 60 seconds..."
-  sleep 60.seconds
-end
+    class App < ::Cli::Command
+      class Options
+        string ["-s", "--symbol"], desc: "symbol: [LTC_BRL, ETHC_BRL, etc]"
+        string ["-a", "--above-value"], desc: "price to be notified when get above", default: "-1.0"
+        string ["-d", "--down-value"], desc: "price to be notified when get down", default: "-1.0"
+      end
 
-p Mail::CryptoGotValue.new("Hacker", "ETH_BRL", app.showValue.dig("data", "ask").to_s, "hacktonironhacker@gmail.com").deliver
+      def run
+        symbol = options.symbol
+        app = NovaHandlers.new symbol
+        
+        while true
+          if app.isMoreThen options.above_value.to_f
+            Mail::CryptoGotValue.new("Bull", symbol, app.showValue.dig("data", "ask").to_s, "hacktonironhacker@gmail.com").deliver
+            break
+          elsif app.isLessThen options.down_value.to_f
+            Mail::CryptoGotValue.new("Bear", symbol, app.showValue.dig("data", "ask").to_s, "hacktonironhacker@gmail.com").deliver
+            break
+          else
+            p "app sleeping 60 seconds..."
+            sleep 60.seconds
+          end
+        end
+
+        #Sucess = 1
+        1
+      rescue e : Exception
+        exit! e.message, error: true
+      end
+    end
+  end
+end   
+
+# app = NovaHandlers.new "ETH_BRL"
+# p app.showValue
+# value = 2849.00
+
+# unless app.isMoreThen value
+#   p "app sleeping 60 seconds..."
+#   sleep 60.seconds
+# end
+
+# p Mail::CryptoGotValue.new("Hacker", "ETH_BRL", app.showValue.dig("data", "ask").to_s, "hacktonironhacker@gmail.com").deliver
+p CLI::MainCommand.run ARGV

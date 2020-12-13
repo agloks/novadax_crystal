@@ -12,6 +12,10 @@ dependencies:
   carbon:
     github: luckyframework/carbon
 
+  cli:
+    github: amberframework/cli
+    version: ~> 0.9.1
+
 crystal: 0.35.1
 
 license: MIT
