@@ -46,10 +46,10 @@ module CLI
         
         while true
           if app.isMoreThen options.above_value.to_f
-            Mail::CryptoGotValue.new("Bull", symbol, app.showValue.dig("data", "ask").to_s, "hacktonironhacker@gmail.com").deliver
+            Mail::CryptoGotValue.new("Bull", symbol, app.showValue.dig("data", "ask").to_s, "hackatonironhacker@gmail.com").deliver
             break
           elsif app.isLessThen options.down_value.to_f
-            Mail::CryptoGotValue.new("Bear", symbol, app.showValue.dig("data", "ask").to_s, "hacktonironhacker@gmail.com").deliver
+            Mail::CryptoGotValue.new("Bear", symbol, app.showValue.dig("data", "ask").to_s, "hackatonironhacker@gmail.com").deliver
             break
           else
             p "app sleeping 60 seconds..."
@@ -68,12 +68,5 @@ end
 
 # app = NovaHandlers.new "ETH_BRL"
 # p app.showValue
-# value = 2849.00
 
-# unless app.isMoreThen value
-#   p "app sleeping 60 seconds..."
-#   sleep 60.seconds
-# end
-
-# p Mail::CryptoGotValue.new("Hacker", "ETH_BRL", app.showValue.dig("data", "ask").to_s, "hacktonironhacker@gmail.com").deliver
 p CLI::MainCommand.run ARGV
